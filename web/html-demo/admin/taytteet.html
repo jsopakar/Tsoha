@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>Pizzapalvelu - ylläpito</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+  </head>
+  
+  <body>
+    
+    <h2>Kaikki täytteet</h2>
+    
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Täyte</th>
+        <th></th>
+      </tr>
+      
+      <tr>
+        <td>1</td>
+        <td>Ananas</td>
+        <td><a href="taytteet.html?edit=1">muokkaa</a> <a href="taytteet.html?poista=1">poista</a></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Kinkku</td>
+        <td><a href="taytteet.html?edit=2">muokkaa</a> <a href="taytteet.html?poista=1">poista</a></td>
+      </tr>
+      
+    </table>
+    
+    <h2>Uuden täytteen lisäys / jonkin muokkaus</h2>
+    
+    <label for="nimi">Täytteen nimi</label>
+    <input type="text" name="nimi">
+    
+    <input type="submit" value="Lisää / muokkaa">
+    
+  </body>
+  
+</html>
