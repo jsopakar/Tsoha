@@ -27,4 +27,17 @@ CREATE TABLE linkTuoteTayte (
 	tuoteID INTEGER REFERENCES tuote(id),
 	tayteID INTEGER REFERENCES tayte(id)
 );
-	
+
+CREATE TABLE ostoskori (
+	id SERIAL PRIMARY KEY,
+	asiakasnimi varchar(64),
+	puhelinnumero varchar(16),
+	osoite varchar(256)
+);
+
+CREATE TABLE tilaus (
+	id SERIAL PRIMARY KEY,
+	tuoteID INTEGER REFERENCES tuote(id),
+	ostoskoriID INTEGER REFERENCES ostoskori(id),
+	huomautuksia varchar(256)
+);
