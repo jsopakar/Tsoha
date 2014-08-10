@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/Pizzapalvelu">
+    <Resource name="jdbc/tietokanta" auth="Container"
+        type="javax.sql.DataSource" removeAbandoned="true"
+        removeAbandonedTimeout="30" maxActive="100"
+        maxIdle="30" maxWait="10000" username="jsopakar"
+        password="FILL_THIS"
+        driverClassName="org.postgresql.Driver"
+        url="jdbc:postgresql://localhost/jsopakar" />
+</Context>
