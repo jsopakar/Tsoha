@@ -27,6 +27,14 @@ INSERT INTO linkTuoteTayte(tuoteID, tayteID) VALUES
 INSERT INTO linkTuoteTayte(tuoteID, tayteID) VALUES
 	(3, 4);
 
+INSERT INTO tilaus(asiakasnimi, puhelinnumero, osoite) VALUES
+	('pekka', '012345789', 'Kotiosoite 10');
+
+INSERT INTO tilauksentuote(tuoteID, tilausID, huomautuksia, hinta) VALUES
+	(1, 1, 'ei huomautusta', 6.90);
+INSERT INTO tilauksentuote(tuoteID, tilausID, huomautuksia, hinta) VALUES
+	(3, 1, 'ketsuppia!', 6.90);
+
 INSERT INTO yllapitotunnukset(tunnus, salasana, tyyppi) VALUES
 	('omistaja', 'salainen', 1);
 INSERT INTO yllapitotunnukset(tunnus, salasana, tyyppi) VALUES

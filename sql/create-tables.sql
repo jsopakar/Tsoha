@@ -1,23 +1,15 @@
-
---CREATE TABLE testi (
---	ID numeric(8) NOT NULL,
---	kuvaus varchar(40),
---	numero numeric(10,1),
---	PRIMARY KEY (ID)
---);
-
 CREATE TABLE tuote (
 	id SERIAL PRIMARY KEY,
-	nimi varchar(64),
+	nimi varchar(64) UNIQUE,
 	kuvaus varchar(256),
 	hinta DECIMAL(3,2),
 	tuotetyyppi INTEGER,
-	tuotenumero INTEGER
+	tuotenumero INTEGER UNIQUE
 );
 
 CREATE TABLE tayte (
 	id SERIAL PRIMARY KEY,
-	nimi varchar(64),
+	nimi varchar(64) UNIQUE,
 	kuvaus varchar(256),
 	hinta DECIMAL(3,2),
 	onkoLisatayte boolean
@@ -28,18 +20,19 @@ CREATE TABLE linkTuoteTayte (
 	tayteID INTEGER REFERENCES tayte(id)
 );
 
-CREATE TABLE ostoskori (
+CREATE TABLE tilaus (
 	id SERIAL PRIMARY KEY,
 	asiakasnimi varchar(64),
 	puhelinnumero varchar(16),
 	osoite varchar(256)
 );
 
-CREATE TABLE tilaus (
+CREATE TABLE tilauksentuote (
 	id SERIAL PRIMARY KEY,
 	tuoteID INTEGER REFERENCES tuote(id),
-	ostoskoriID INTEGER REFERENCES ostoskori(id),
-	huomautuksia varchar(256)
+	tilausID INTEGER REFERENCES tilaus(id),
+	huomautuksia varchar(256),
+	hinta DECIMAL(3,2)
 );
 
 CREATE TABLE yllapitotunnukset (
@@ -48,4 +41,3 @@ CREATE TABLE yllapitotunnukset (
 	tyyppi INTEGER
 );
 
---LOPPU

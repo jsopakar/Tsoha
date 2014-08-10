@@ -1,9 +1,7 @@
---DROP TABLE testi;
-
 DROP TABLE linkTuoteTayte;
-DROP TABLE tilaus;
+DROP TABLE tilauksenTuote;
 
-DROP TABLE ostoskori;
+DROP TABLE tilaus;
 DROP TABLE tayte;
 DROP TABLE tuote;
 
