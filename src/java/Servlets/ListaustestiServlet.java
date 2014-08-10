@@ -37,7 +37,7 @@ public class ListaustestiServlet extends HttpServlet {
         try {
             taytteet = Tayte.listTaytteet();          
         } catch (SQLException ex) {
-            Logger.getLogger(TestiServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListaustestiServlet.class.getName()).log(Level.SEVERE, null, ex);
             out.println(ex);
         }
         
