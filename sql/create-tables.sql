@@ -41,3 +41,11 @@ CREATE TABLE tilaus (
 	ostoskoriID INTEGER REFERENCES ostoskori(id),
 	huomautuksia varchar(256)
 );
+
+CREATE TABLE yllapitotunnukset (
+	tunnus varchar(16) UNIQUE PRIMARY KEY,
+	salasana varchar(16),
+	tyyppi INTEGER
+);
+
+--LOPPU

@@ -26,3 +26,8 @@ INSERT INTO linkTuoteTayte(tuoteID, tayteID) VALUES
 	(2, 2);
 INSERT INTO linkTuoteTayte(tuoteID, tayteID) VALUES
 	(3, 4);
+
+INSERT INTO yllapitotunnukset(tunnus, salasana, tyyppi) VALUES
+	('omistaja', 'salainen', 1);
+INSERT INTO yllapitotunnukset(tunnus, salasana, tyyppi) VALUES
+	('kuski', 'enkerro', 2);
