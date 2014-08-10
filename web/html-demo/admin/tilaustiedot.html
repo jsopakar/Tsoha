@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>Pizzapalvelu - ylläpito</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+  </head>
+  
+  <body>
+    
+    <h2>Tilaus</h2>
+    
+    <table>
+      <tr>
+        <th>Tilaajan nimi</th>
+        <th>Osoite</th>
+        <th>Puhelinnumero</th>
+      </tr>
+      
+      <tr>
+        <td>Pekka</td>
+        <td>Kotikatu 10</td>
+        <td>012-3456789</td>
+      </tr>
+
+      <tr>
+        <td>1</td>
+        <td>Americano</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Kebab ranskalaisilla</td>
+        <td>Ketsuppia</td>
+      </tr>
+      
+    </table>
+    
+    <form method="post" action="kuitti?id=1">
+      <input type="submit" value="Tulosta kuitti">
+      
+    </form>
+    
+  </body>
+  
+</html>
