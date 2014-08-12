@@ -14,7 +14,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/admin/login.jsp</url-pattern>
+        <url-pattern>/admin/</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -3,6 +3,9 @@ package Pizzapalvelu.Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author jsopakar
  */
 public class LoginServlet extends HttpServlet {
-
+    
+    private String virheviesti;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -26,11 +31,54 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        
+        int testi = 0;
+        boolean loginOk = false;
+        
+        String tunnus = request.getParameter("tunnus");
+        String salasana = request.getParameter("salasana");
+//        if (tunnus == null) tunnus = "";
+//        if (salasana == null) salasana = "";
+        
+        
+        if (tunnus!=null && salasana!=null)
+            loginOk = tarkastaKirjautuminen(tunnus, salasana);
+        
+        testi++;
+        
+        if (loginOk) {
+            RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
+            disp.forward(request, response);
+        } else {
+            if (tunnus!=null)
+                request.setAttribute("tunnus", tunnus);
+            if (virheviesti!=null)
+                request.setAttribute("virheviesti", virheviesti);
+            request.setAttribute("luku", testi);
+            naytaJSP("login.jsp", request, response);
+        }
+        
+    }
+    
+    private boolean tarkastaKirjautuminen(String tunnus, String salasana) {
+        
+        if (tunnus.equals("oikea") && salasana.equals("sala")) {
+            return true;
+        } else {
+            virheviesti = "Kirjautuminen epäonnistui!";
+            return false;
+        }
+            
+    }
+    
+    private void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher disp = request.getRequestDispatcher(url);
         try {
-            /* TODO output your page here. You may use following sample code. */
-        } finally {
-            out.close();
+            disp.forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
