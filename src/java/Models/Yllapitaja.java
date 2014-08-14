@@ -10,13 +10,13 @@ import java.sql.SQLException;
 /**
  *
  */
-public class Yllapitotunnus {
+public class Yllapitaja {
     
     private String tunnus;
     private String salasana;
     private int tyyppi;
 
-    public Yllapitotunnus(String tunnus, String salasana, int tyyppi) {
+    public Yllapitaja(String tunnus, String salasana, int tyyppi) {
         this.tunnus = tunnus;
         this.salasana = salasana;
         this.tyyppi = tyyppi;
@@ -34,7 +34,7 @@ public class Yllapitotunnus {
         return tyyppi;
     }
     
-    public static Yllapitotunnus haeTunnus(String tunnus) throws SQLException {
+    public static Yllapitaja haeTunnus(String tunnus) throws SQLException {
 
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -48,7 +48,7 @@ public class Yllapitotunnus {
             tulokset = kysely.executeQuery();
 
             if (tulokset.next())
-                return new Yllapitotunnus(
+                return new Yllapitaja(
                         tulokset.getString("tunnus"),
                         tulokset.getString("salasana"),
                         tulokset.getInt("tyyppi")
