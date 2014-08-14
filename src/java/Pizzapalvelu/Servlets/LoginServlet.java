@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LoginServlet extends HttpServlet {
     
-    private String virheviesti;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,8 +31,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        int testi = 0;
         boolean loginOk = false;
+        String virheviesti = null;
         
         String tunnus = request.getParameter("tunnus");
         String salasana = request.getParameter("salasana");
@@ -41,20 +40,22 @@ public class LoginServlet extends HttpServlet {
 //        if (salasana == null) salasana = "";
         
         
+        
         if (tunnus!=null && salasana!=null)
             loginOk = tarkastaKirjautuminen(tunnus, salasana);
         
-        testi++;
         
         if (loginOk) {
             RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
             disp.forward(request, response);
         } else {
+            
             if (tunnus!=null)
                 request.setAttribute("tunnus", tunnus);
+                virheviesti = "Kirjautuminen epäonnistui!";
+                
             if (virheviesti!=null)
                 request.setAttribute("virheviesti", virheviesti);
-            request.setAttribute("luku", testi);
             naytaJSP("login.jsp", request, response);
         }
         
@@ -65,7 +66,6 @@ public class LoginServlet extends HttpServlet {
         if (tunnus.equals("oikea") && salasana.equals("sala")) {
             return true;
         } else {
-            virheviesti = "Kirjautuminen epäonnistui!";
             return false;
         }
             
