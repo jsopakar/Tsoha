@@ -3,8 +3,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:peruspohja pageTitle="Pizzapalvelu - ylläpidon kirjautuminen">
 
-
-
 <h1>Ylläpidon kirjautuminen</h1>
 
 <c:if test="${virheviesti != null}">

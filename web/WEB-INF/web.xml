@@ -16,6 +16,10 @@
         <servlet-name>MenuServlet</servlet-name>
         <servlet-class>Pizzapalvelu.Servlets.MenuServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PizzaPalveluServlet</servlet-name>
+        <servlet-class>Pizzapalvelu.Servlets.PizzaPalveluServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListaustestiServlet</servlet-name>
         <url-pattern>/Listaustesti</url-pattern>

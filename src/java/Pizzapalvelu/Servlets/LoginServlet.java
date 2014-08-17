@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author jsopakar
  */
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends PizzaPalveluServlet {
     
 
     /**
@@ -39,6 +39,18 @@ public class LoginServlet extends HttpServlet {
         
         String tunnus = request.getParameter("tunnus");
         String salasana = request.getParameter("salasana");
+        
+        // Uloskirjautuminen
+        if (request.getParameter("logout") != null) {
+            HttpSession sessio = request.getSession();
+            sessio.removeAttribute("kirjautunut");
+            request.setAttribute("virheviesti", "Olet kirjautunut ulos!");
+        }
+        
+        if (onKirjautunut(request)) {
+            response.sendRedirect("index.jsp");
+            return;
+        }
         
         if (tunnus == null && salasana == null) {
             naytaJSP("login.jsp", request, response);
@@ -71,8 +83,8 @@ public class LoginServlet extends HttpServlet {
         
         if (loginOk) {
             //request.setAttribute("kirjautuminen", "Kirjautuminen onnistui!");
-            //response.sendRedirect("index.jsp");
-            naytaJSP("index.jsp", request, response);
+            //naytaJSP("index.jsp", request, response);
+            response.sendRedirect("index.jsp");
         } else {       
             if (!(tunnus == null))
                 request.setAttribute("tunnus", tunnus);
@@ -92,7 +104,7 @@ public class LoginServlet extends HttpServlet {
             return false;
         } else {
             HttpSession sessio = request.getSession();
-            sessio.setAttribute("tunnnus", yp);
+            sessio.setAttribute("kirjautunut", yp);
             return true;
         }
     }

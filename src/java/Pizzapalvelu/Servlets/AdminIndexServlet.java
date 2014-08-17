@@ -1,18 +1,20 @@
 
 package Pizzapalvelu.Servlets;
 
+import Models.Yllapitaja;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author jsopakar
  */
-public class AdminIndexServlet extends HttpServlet {
+public class AdminIndexServlet extends PizzaPalveluServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -25,22 +27,33 @@ public class AdminIndexServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminIndexServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminIndexServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
+        
+        String virheviesti = null;
+        
+        String yllapitaja = null;
+        
+        if (!onKirjautunut(request)) {
+            response.sendRedirect("login.jsp");
+            return;
+        } else {
+            HttpSession sessio = request.getSession();
+            Yllapitaja yp = (Yllapitaja)sessio.getAttribute("kirjautunut");
+            yllapitaja = yp.getTunnus();
         }
+            
+        
+        
+        //virheviesti = "asd";
+        
+        if (virheviesti != null)
+            request.setAttribute("virheviesti", virheviesti);
+        
+        request.setAttribute("Kirjautunut", yllapitaja);
+        
+        RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
+        disp.forward(request, response);
+        //naytaJSP("index.jsp", request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -82,4 +95,12 @@ public class AdminIndexServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher disp = request.getRequestDispatcher(url);
+        try {
+            disp.forward(request, response);
+        } catch (ServletException ex) {
+        } catch (IOException ex) {
+        }
+    }
 }
