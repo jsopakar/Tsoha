@@ -1,8 +1,10 @@
 
 package Pizzapalvelu.Servlets;
 
+import Models.Yllapitaja;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -36,24 +38,46 @@ public class LoginServlet extends HttpServlet {
         
         String tunnus = request.getParameter("tunnus");
         String salasana = request.getParameter("salasana");
-//        if (tunnus == null) tunnus = "";
-//        if (salasana == null) salasana = "";
         
+        if (tunnus == null && salasana == null) {
+            naytaJSP("login.jsp", request, response);
+            return;
+        }
         
+        if (tunnus == null || tunnus.equals("")) {
+            virheviesti = "Et antanut käyttäjätunnusta!";
+            request.setAttribute("virheviesti", virheviesti);
+            naytaJSP("login.jsp", request, response);
+            return;
+        }
         
-        if (tunnus!=null && salasana!=null)
-            loginOk = tarkastaKirjautuminen(tunnus, salasana);
+        request.setAttribute("tunnus", tunnus);
         
+        if (salasana == null || salasana.equals("")) {
+            virheviesti = "Et antanut salasanaa!";
+            request.setAttribute("virheviesti", virheviesti);
+            naytaJSP("login.jsp", request, response);
+            return;
+        }
+        
+        if ((tunnus!=null) && (salasana!=null)) {
+
+            try {
+                loginOk = tarkastaKirjautuminen(tunnus, salasana);
+            } catch (SQLException ex) {
+                virheviesti = "Tietokantavirhe!";
+            }
+
+        }
         
         if (loginOk) {
-            RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
-            disp.forward(request, response);
-        } else {
-            
-            if (tunnus!=null)
+            //request.setAttribute("kirjautuminen", "Kirjautuminen onnistui!");
+            //response.sendRedirect("index.jsp");
+            naytaJSP("index.jsp", request, response);
+        } else {       
+            if (!(tunnus == null))
                 request.setAttribute("tunnus", tunnus);
                 virheviesti = "Kirjautuminen epäonnistui!";
-                
             if (virheviesti!=null)
                 request.setAttribute("virheviesti", virheviesti);
             naytaJSP("login.jsp", request, response);
@@ -61,14 +85,15 @@ public class LoginServlet extends HttpServlet {
         
     }
     
-    private boolean tarkastaKirjautuminen(String tunnus, String salasana) {
+    private boolean tarkastaKirjautuminen(String tunnus, String salasana) throws SQLException {
         
-        if (tunnus.equals("oikea") && salasana.equals("sala")) {
-            return true;
-        } else {
+        Yllapitaja yp = null;
+        yp = Yllapitaja.haeTunnus(tunnus, salasana);
+        
+        if (yp == null) {
             return false;
-        }
-            
+        } else
+            return true;
     }
     
     private void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {

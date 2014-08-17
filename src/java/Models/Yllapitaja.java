@@ -1,7 +1,7 @@
 
 package Models;
 
-import Pizzapalvelu.Models.Tuote;
+import Pizzapalvelu.Models.Tuote_test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,34 +34,31 @@ public class Yllapitaja {
         return tyyppi;
     }
     
-    public static Yllapitaja haeTunnus(String tunnus) throws SQLException {
+    public static Yllapitaja haeTunnus(String tunnus, String salasana) throws SQLException {
 
-        Connection yhteys = null;
-        PreparedStatement kysely = null;
-        ResultSet tulokset = null;
+        Yllapitaja yp = null;
         
-        try {
-            String SQL = "SELECT * FROM yllapitotunnukset WHERE id = ?";
-            yhteys = Tietokanta.getYhteys();
-            kysely = yhteys.prepareStatement(SQL);
-            kysely.setString(1, tunnus);
-            tulokset = kysely.executeQuery();
+        String SQL = "SELECT * FROM yllapitotunnukset WHERE tunnus = ? and salasana = ?";
+        Connection yhteys = Tietokanta.getYhteys();
+        
+        PreparedStatement kysely = yhteys.prepareStatement(SQL);
 
-            if (tulokset.next())
-                return new Yllapitaja(
-                        tulokset.getString("tunnus"),
-                        tulokset.getString("salasana"),
-                        tulokset.getInt("tyyppi")
-                );
-            
-            else
-                return null;
-            
-        } finally {
-            try { tulokset.close(); } catch (Exception e) {  }
-            try { kysely.close(); } catch (Exception e) {  }
-            try { yhteys.close(); } catch (Exception e) {  }            
+        kysely.setString(1, tunnus);
+        kysely.setString(2, salasana);
+        ResultSet tulokset = kysely.executeQuery();
+
+        if (tulokset.next()) {
+            yp = new Yllapitaja(
+                    tulokset.getString("tunnus"),
+                    tulokset.getString("salasana"),
+                    tulokset.getInt("tyyppi"));
         }
+        
+        try { tulokset.close(); } catch (Exception e) {  }
+        try { kysely.close(); } catch (Exception e) {  }
+        try { yhteys.close(); } catch (Exception e) {  }
+        
+        return yp;
         
     }
     

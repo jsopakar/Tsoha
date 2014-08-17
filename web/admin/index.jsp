@@ -4,9 +4,18 @@
 
 <t:peruspohja pageTitle="Pizzapalvelu - ylläpito">
 
-    <h1>Ylläpito</h1>
-    
-    <p>Tähän tulee admin-sivun päälinkit.</p>
-    
+<h1>Ylläpito</h1>
+
+<c:if test="${kirjautuminen != null}">
+  <div class="virhe">
+      <p>${kirjautuminen}</p>
+  </div>
+</c:if>
+
+
+<p>Tähän tulee admin-sivun päälinkit.</p>
+
+
+
     
 </t:peruspohja>
