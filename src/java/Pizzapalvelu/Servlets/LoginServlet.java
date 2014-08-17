@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -61,13 +62,11 @@ public class LoginServlet extends HttpServlet {
         }
         
         if ((tunnus!=null) && (salasana!=null)) {
-
             try {
-                loginOk = tarkastaKirjautuminen(tunnus, salasana);
+                loginOk = tarkastaKirjautuminen(tunnus, salasana, request);
             } catch (SQLException ex) {
                 virheviesti = "Tietokantavirhe!";
             }
-
         }
         
         if (loginOk) {
@@ -82,18 +81,20 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("virheviesti", virheviesti);
             naytaJSP("login.jsp", request, response);
         }
-        
     }
     
-    private boolean tarkastaKirjautuminen(String tunnus, String salasana) throws SQLException {
+    private boolean tarkastaKirjautuminen(String tunnus, String salasana, HttpServletRequest request) throws SQLException {
         
         Yllapitaja yp = null;
         yp = Yllapitaja.haeTunnus(tunnus, salasana);
         
         if (yp == null) {
             return false;
-        } else
+        } else {
+            HttpSession sessio = request.getSession();
+            sessio.setAttribute("tunnnus", yp);
             return true;
+        }
     }
     
     private void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {
