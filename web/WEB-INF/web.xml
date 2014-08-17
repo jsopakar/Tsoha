@@ -12,6 +12,10 @@
         <servlet-name>AdminIndexServlet</servlet-name>
         <servlet-class>Pizzapalvelu.Servlets.AdminIndexServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MenuServlet</servlet-name>
+        <servlet-class>Pizzapalvelu.Servlets.MenuServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListaustestiServlet</servlet-name>
         <url-pattern>/Listaustesti</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>AdminIndexServlet</servlet-name>
         <url-pattern>/Admin/index.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MenuServlet</servlet-name>
+        <url-pattern>/Menu</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
