@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Tuote-tieto
  */
-public class Tuote {
+public class Tuote_test {
 
     private int id;
     private String nimi;
@@ -19,7 +19,7 @@ public class Tuote {
     private int tuotetyyppi;
     private int tuotenumero;
 
-    public Tuote(int id, String nimi, String kuvaus, double hinta, int tuotetyyppi, int tuotenumero) {
+    public Tuote_test(int id, String nimi, String kuvaus, double hinta, int tuotetyyppi, int tuotenumero) {
         this.id = id;
         this.nimi = nimi;
         this.kuvaus = kuvaus;
@@ -28,7 +28,7 @@ public class Tuote {
         this.tuotenumero = tuotenumero;
     }
     
-    private Tuote(ResultSet tulos) throws SQLException {
+    private Tuote_test(ResultSet tulos) throws SQLException {
         this(
             tulos.getInt("id"),
             tulos.getString("nimi"),
@@ -65,7 +65,7 @@ public class Tuote {
     
     
     
-    public static Tuote haeTuote(int id) throws SQLException {
+    public static Tuote_test haeTuote(int id) throws SQLException {
         
         Connection yhteys = null;
         PreparedStatement kysely = null;
@@ -79,7 +79,7 @@ public class Tuote {
             tulokset = kysely.executeQuery();
 
             if (tulokset.next())
-                return new Tuote(tulokset);
+                return new Tuote_test(tulokset);
             else
                 return null;
             
