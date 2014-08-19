@@ -20,6 +20,10 @@
         <servlet-name>PizzaPalveluServlet</servlet-name>
         <servlet-class>Pizzapalvelu.Servlets.PizzaPalveluServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminTaytteetServlet</servlet-name>
+        <servlet-class>Pizzapalvelu.Servlets.AdminTaytteetServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListaustestiServlet</servlet-name>
         <url-pattern>/Listaustesti</url-pattern>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>MenuServlet</servlet-name>
         <url-pattern>/Menu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminTaytteetServlet</servlet-name>
+        <url-pattern>/admin/taytteet/</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

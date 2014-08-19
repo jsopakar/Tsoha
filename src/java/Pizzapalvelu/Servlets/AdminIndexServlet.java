@@ -95,6 +95,7 @@ public class AdminIndexServlet extends PizzaPalveluServlet {
         return "Short description";
     }// </editor-fold>
 
+    /*
     private void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher disp = request.getRequestDispatcher(url);
         try {
@@ -103,4 +104,5 @@ public class AdminIndexServlet extends PizzaPalveluServlet {
         } catch (IOException ex) {
         }
     }
+    */
 }

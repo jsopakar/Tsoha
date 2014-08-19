@@ -20,6 +20,13 @@
 
 <p>Tähän tulee admin-sivun päälinkit.</p>
 
+<h2>Omistajan toiminnot</h2>
+
+<ul>
+    <li><a href="taytteet.jsp">Täytteiden hallinta</a></li>
+    <li>Tuotteiden hallinta</li>
+</ul>
+
 
 <p><a href="./?logout=1">Kirjaudu ulos</a></p>
     

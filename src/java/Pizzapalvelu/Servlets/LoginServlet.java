@@ -109,6 +109,7 @@ public class LoginServlet extends PizzaPalveluServlet {
         }
     }
     
+    /*
     private void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher disp = request.getRequestDispatcher(url);
         try {
@@ -119,6 +120,7 @@ public class LoginServlet extends PizzaPalveluServlet {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    */
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

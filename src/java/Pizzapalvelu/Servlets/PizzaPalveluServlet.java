@@ -67,16 +67,14 @@ public abstract class PizzaPalveluServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    /*
     protected void naytaJSP(String url, HttpServletRequest request, HttpServletResponse response) {
-    RequestDispatcher disp = request.getRequestDispatcher(url);
-    try {
-    disp.forward(request, response);
-    } catch (ServletException ex) {
-    } catch (IOException ex) {
+        RequestDispatcher disp = request.getRequestDispatcher(url);
+        try {
+        disp.forward(request, response);
+        } catch (ServletException ex) {
+        } catch (IOException ex) {
+        }
     }
-    }
-    */
     protected boolean onKirjautunut(HttpServletRequest request) {
         HttpSession sessio = request.getSession();
         //Yllapitaja yp = (Yllapitaja)sessio.getAttribute("kirjautunut");
