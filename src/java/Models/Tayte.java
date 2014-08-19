@@ -51,7 +51,7 @@ public class Tayte {
     public boolean isOnkoLisatayte() {
         return onkoLisatayte;
     }
-    
+
     
     
     public static List<Tayte> listTaytteet() throws SQLException {
@@ -85,6 +85,39 @@ public class Tayte {
         
         
         return taytteet;
+        
+    }
+    
+    public static Tayte haeIdlla(int id) throws SQLException {
+        
+        Tayte t = null;
+        
+        if (id > 0) {
+            String SQL = "SELECT * FROM Tayte WHERE id = ?";
+            Connection yhteys = Tietokanta.getYhteys();
+            PreparedStatement kysely = yhteys.prepareStatement(SQL);
+            kysely.setInt(1, id);
+            
+            ResultSet rs = kysely.executeQuery();
+            
+            if (rs.next()) {
+                t = new Tayte(
+                        rs.getInt("id"),
+                        rs.getString("nimi"),
+                        rs.getString("kuvaus"),
+                        rs.getDouble("hinta"),
+                        rs.getBoolean("onkolisatayte"));
+            }
+
+        try { rs.close(); } catch (Exception e) {  }
+        try { kysely.close(); } catch (Exception e) {  }
+        try { yhteys.close(); } catch (Exception e) {  }
+            
+            
+        }
+        
+        
+        return t;
         
     }
     
