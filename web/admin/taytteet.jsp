@@ -21,6 +21,14 @@
         
 </c:if>
 
+<c:if test="${poistovahvistus != null}">
+    <p class="vahvistus">
+        Vahvista täytteen poisto, ID ${poistovahvistus}
+        ${poistovahvistus}<br>
+        [ <a href="taytteet?poista=${poistovahvistus}&vahvistus=1">Vahvista</a> ]
+    </p>
+</c:if>
+
 <table>
     <tr>
         <th>ID</th>
@@ -38,7 +46,7 @@
             <td><c:out value="${tayte.kuvaus}"/></td>
             <td>${tayte.hinta}</td>
             <td>${tayte.onkoLisatayte}</td>
-            <td> [ <a href="taytteet?edit=${tayte.id}">Muokkaa</a> ]</td>
+            <td> [ <a href="taytteet?edit=${tayte.id}">Muokkaa</a> ]&nbsp;&nbsp[ <a href="taytteet?poista=${tayte.id}">Poista</a> ]</td>
         </tr>
         
     </c:forEach>

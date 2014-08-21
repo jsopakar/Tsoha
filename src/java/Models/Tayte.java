@@ -32,6 +32,9 @@ public class Tayte {
         this.onkoLisatayte = onkoLisatayte;
     }
 
+    public Tayte() {
+    }
+
     public int getId() {
         return id;
     }
@@ -68,23 +71,97 @@ public class Tayte {
         this.onkoLisatayte = onkoLisatayte;
     }
 
+    /**
+     * Metodi, joka tallentaa olemassa olevan täytteen muutokset kantaan.
+     * @return
+     * @throws SQLException 
+     */
     public String tallennaMuutokset() throws SQLException {
         String temp = "";
-        String SQL = "UPDATE tayte SET nimi = ?, kuvaus = ?, hinta = ? WHERE id = ?;";
+        String SQL = "UPDATE tayte SET nimi = ?, kuvaus = ?, hinta = ?, onkolisatayte = ? WHERE id = ?;";
         Connection yhteys = Tietokanta.getYhteys();
         PreparedStatement kysely = null;
         kysely = yhteys.prepareStatement(SQL);
         kysely.setString(1, this.nimi);
         kysely.setString(2, this.kuvaus);
         kysely.setDouble(3, this.hinta);
-        kysely.setInt(4, this.id);
+        kysely.setBoolean(4, this.onkoLisatayte);
+        kysely.setInt(5, this.id);
         temp = kysely.toString();
         int tulos = kysely.executeUpdate();
         
+        //Suljetaan kaikki:
+        try { kysely.close(); } catch (Exception e) {}
+        try { yhteys.close(); } catch (Exception e) {}        
         
         return temp;
     }
     
+    public String lisaaTietokantaan() throws SQLException {
+        String temp = "";
+        
+        String SQL = "INSERT INTO tayte(nimi, kuvaus, hinta, onkolisatayte) VALUES (?,?,?,?) RETURNING id;";
+        Connection yhteys = Tietokanta.getYhteys();
+        PreparedStatement kysely = null;
+        kysely = yhteys.prepareStatement(SQL);
+        kysely.setString(1, this.nimi);
+        kysely.setString(2, this.kuvaus);
+        kysely.setDouble(3, this.hinta);
+        //TODO: Hardcodattu true...
+        kysely.setBoolean(4, true);
+        temp = kysely.toString();
+        
+        ResultSet rs = kysely.executeQuery();
+        rs.next();
+        this.id = rs.getInt(1);
+
+        //Suljetaan kaikki:
+        try { rs.close(); } catch (Exception e) {}
+        try { kysely.close(); } catch (Exception e) {}
+        try { yhteys.close(); } catch (Exception e) {}        
+
+        return temp + " ID oli " + this.id;
+    }
+    
+    public String poistaTietokannasta() throws SQLException {
+        String temp = "";
+        
+        if (!voikoPoistaa())
+            return temp;
+        
+        String SQL = "DELETE FROM tayte WHERE id = ?;";
+        Connection yhteys = Tietokanta.getYhteys();
+        PreparedStatement kysely = null;
+        kysely = yhteys.prepareStatement(SQL);
+        kysely.setInt(1, this.id);
+        
+        temp = kysely.toString();
+        
+        kysely.execute();
+        
+        //Suljetaan kaikki:
+        //try { rs.close(); } catch (Exception e) {}
+        try { kysely.close(); } catch (Exception e) {}
+        try { yhteys.close(); } catch (Exception e) {}        
+        
+        return temp;
+    }
+
+    /**
+     * Tarkastaa onko lisättävät tai tallennettavat tiedot kelvollisia. TODO: Ei
+     * tee vielä mitään.
+     *
+     * @return
+     */
+    public boolean onkoKelvollinen() {
+
+        return true;
+    }
+
+    //TODO: Tarkastettava viite-eheys...
+    public boolean voikoPoistaa() {
+        return true;
+    }
     
     public static List<Tayte> listTaytteet() throws SQLException {
         
@@ -110,11 +187,10 @@ public class Tayte {
             taytteet.add(t);
         }
 
-        //Suljetaan kaikki resutuloksetsit:
+        //Suljetaan kaikki:
         try { tulokset.close(); } catch (Exception e) {}
         try { kysely.close(); } catch (Exception e) {}
         try { yhteys.close(); } catch (Exception e) {}        
-        
         
         return taytteet;
         
@@ -144,7 +220,6 @@ public class Tayte {
         try { rs.close(); } catch (Exception e) {  }
         try { kysely.close(); } catch (Exception e) {  }
         try { yhteys.close(); } catch (Exception e) {  }
-            
             
         }
         
