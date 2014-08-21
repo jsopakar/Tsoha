@@ -52,13 +52,45 @@ public class Tayte {
         return onkoLisatayte;
     }
 
+    public void setNimi(String nimi) {
+        this.nimi = nimi;
+    }
+
+    public void setKuvaus(String kuvaus) {
+        this.kuvaus = kuvaus;
+    }
+
+    public void setHinta(double hinta) {
+        this.hinta = hinta;
+    }
+
+    public void setOnkoLisatayte(boolean onkoLisatayte) {
+        this.onkoLisatayte = onkoLisatayte;
+    }
+
+    public String tallennaMuutokset() throws SQLException {
+        String temp = "";
+        String SQL = "UPDATE tayte SET nimi = ?, kuvaus = ?, hinta = ? WHERE id = ?;";
+        Connection yhteys = Tietokanta.getYhteys();
+        PreparedStatement kysely = null;
+        kysely = yhteys.prepareStatement(SQL);
+        kysely.setString(1, this.nimi);
+        kysely.setString(2, this.kuvaus);
+        kysely.setDouble(3, this.hinta);
+        kysely.setInt(4, this.id);
+        temp = kysely.toString();
+        int tulos = kysely.executeUpdate();
+        
+        
+        return temp;
+    }
     
     
     public static List<Tayte> listTaytteet() throws SQLException {
         
         ArrayList<Tayte> taytteet = new ArrayList<Tayte>();
         
-        String SQL = "SELECT * FROM Tayte ORDER BY id;";
+        String SQL = "SELECT * FROM tayte ORDER BY id;";
         
         Connection yhteys = Tietokanta.getYhteys();
         PreparedStatement kysely = null;
@@ -120,5 +152,5 @@ public class Tayte {
         return t;
         
     }
-    
+
 }

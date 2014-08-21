@@ -42,7 +42,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdminTaytteetServlet</servlet-name>
-        <url-pattern>/admin/taytteet/</url-pattern>
+        <url-pattern>/admin/taytteet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

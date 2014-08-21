@@ -34,6 +34,7 @@ public class AdminTaytteetServlet extends PizzaPalveluServlet {
             throws ServletException, IOException {
         
         String virhe = null;
+        ArrayList<String> virheet = new ArrayList<String>() {};
         
         List<Tayte> taytteet = new ArrayList<Tayte>();
         Tayte muokattava = null;
@@ -48,26 +49,85 @@ public class AdminTaytteetServlet extends PizzaPalveluServlet {
         
         // Jos halutaan muokata, haetana sen tiedot:
         if (request.getParameter("edit") != null) {
-            virhe = "ASD";
+            //virheet.add("Editointi");        //debug
+            request.setAttribute("muokkaustila", true);
             int id = Integer.parseInt(request.getParameter("edit"));
             try {
                 muokattava = Tayte.haeIdlla(id);
             } catch (SQLException ex) { }
         }
         
-        //virhe = "koe";
+        // Muokkauksen submitin käsittely: -------------------------------------
+        if (request.getParameter("tallennaMuokkaus") != null) {
+            virheet.add("Tallennuksen käsittely, ID=" + request.getParameter("id"));   //debug
+            
+            String temp = muokattu(request);
+            if (temp == null) {
+                virheet.add("Ei muutoksia tallennuksessa");
+            } else {
+                virhe = temp;
+                int id = Integer.parseInt(request.getParameter("id"));
+                Tayte t = null;
+                try {
+                    t = Tayte.haeIdlla(id);
+                virheet.add("Haettu kannasta...");
+                } catch (SQLException ex) {                }
+                
+                t.setNimi(request.getParameter("nimi"));
+                t.setKuvaus(request.getParameter("kuvaus"));
+                t.setHinta((Double.parseDouble(request.getParameter("hinta"))));
+                
+                try {
+                    virheet.add(t.tallennaMuutokset());
+                } catch (SQLException ex) {
+                    virheet.add("TIETOKANTAVIRHE TALLENNUKSESSA!");
+                }
+                
+                //virheet.add(t.getNimi()+", "+t.getKuvaus()+","+t.getHinta());
+                
+            }
+            
+        }
         
+
         request.setAttribute("taytteet", taytteet);
         if (muokattava != null)
             request.setAttribute("muokattava", muokattava);
         if (virhe != null)
             request.setAttribute("virhe", virhe);
+        if (virheet != null)
+            request.setAttribute("virheet", virheet);
         
-        naytaJSP("../taytteet.jsp", request, response);
+        naytaJSP("taytteet.jsp", request, response);
         
         //RequestDispatcher disp = request.getRequestDispatcher("../taytteet.jsp");
         //disp.forward(request, response);
         
+    }
+    
+    private String muokattu(HttpServletRequest req) {
+        
+        boolean muokattu = false;
+        
+        if (!req.getParameter("nimi").equals(req.getParameter("nimiVanha")))
+            return "Muutettu: NIMI";
+        if (!req.getParameter("kuvaus").equals(req.getParameter("kuvausVanha")))
+            return "KUVAUS";
+        if (!req.getParameter("hinta").equals(req.getParameter("hintaVanha")))
+            return "HINTA";
+        
+//        boolean lisatayte = (req.getParameter("lisatayte") == null);
+//        boolean lisatayteVanha = (req.getParameter("lisatayteVanha") == null);
+//        if (lisatayte)
+//            //return req.getParameter("lisatayteVanha");
+//            return "ASD";
+        
+//        String lisatayte = "---";
+//        if (req.getParameter("lisatayte") == null) lisatayte = "false";
+//        if (!lisatayte.equals(req.getParameter("lisatayteVanha")))
+//            return lisatayte;
+        
+        return null;
     }
     
 

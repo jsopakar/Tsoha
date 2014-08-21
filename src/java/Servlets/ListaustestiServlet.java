@@ -61,7 +61,7 @@ public class ListaustestiServlet extends HttpServlet {
                 out.println("<td>" + t.getNimi() + "</td>");
                 out.println("<td>" + t.getKuvaus() + "</td>");
                 out.println("<td>" + t.getHinta() + "</td>");
-                out.println("<td>" + t.isLisatayte() + "</td>");
+                out.println("<td>" + t.isOnkoLisatayte() + "</td>");
                 out.println("</tr>");
                 
             }
