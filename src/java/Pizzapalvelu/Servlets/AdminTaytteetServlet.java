@@ -31,6 +31,7 @@ public class AdminTaytteetServlet extends PizzaPalveluServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
 
         String virhe = null;
         ArrayList<String> virheet = new ArrayList<String>() {
@@ -161,6 +162,14 @@ public class AdminTaytteetServlet extends PizzaPalveluServlet {
             
                 
             
+        }
+
+        // Haetaan lista kaikista täytteistä:
+        try {
+            taytteet = Tayte.listTaytteet();
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminTaytteetServlet.class.getName()).log(Level.SEVERE, null, ex);
+            virhe += "Tietokantavirhe!";
         }
 
         request.setAttribute("taytteet", taytteet);

@@ -154,12 +154,27 @@ public class Tayte {
      * @return
      */
     public boolean onkoKelvollinen() {
-
-        return true;
+        boolean ok = true;
+        
+        //nimi
+        if (nimi == null || nimi.isEmpty() || nimi.length()>64)
+            ok = false;
+        //else if (nimi.length() > 64)
+        //    ok = false;
+        
+        //kuvaus
+        if (kuvaus == null || kuvaus.length()>256)
+            ok = false;
+        
+        //hinta
+        if (hinta < 0 || hinta > 999)
+            ok = false;
+        return ok;
     }
 
     //TODO: Tarkastettava viite-eheys...
     public boolean voikoPoistaa() {
+        
         return true;
     }
     
@@ -171,11 +186,12 @@ public class Tayte {
         
         Connection yhteys = Tietokanta.getYhteys();
         PreparedStatement kysely = null;
-        try {
+        //try {
             kysely = yhteys.prepareStatement(SQL);
-        } catch (SQLException ex) {
-            Logger.getLogger(Tayte.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //} catch (SQLException ex) {
+        //    Logger.getLogger(Tayte.class.getName()).log(Level.SEVERE, null, ex);
+        //}
+            
         ResultSet tulokset = kysely.executeQuery();
 
         while (tulokset.next()) {
