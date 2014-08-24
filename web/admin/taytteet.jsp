@@ -11,16 +11,6 @@
     </div>
 </c:if>
 
-<c:if test="${virheet != null}">
-    <c:forEach var="vir" items="${virheet}">
-    <div class="virhe">
-        <p>${vir}</p>
-    </div>
-        
-    </c:forEach>
-        
-</c:if>
-
 <c:if test="${poistovahvistus != null}">
     <p class="vahvistus">
         Vahvista täytteen poisto, ID ${poistovahvistus}
@@ -76,6 +66,7 @@
     <input type="text" name="hinta" value="${muokattava.hinta}" size="5"><br>
     <label for="lisatayte">Lisätäytteenä: </label>
     <input type="checkbox" name="lisatayte"<c:if test="${muokattava.onkoLisatayte}"> value=checked</c:if>>
+    (käsittely ei toimi vielä, ei vaikutusta tällä...)
     <br>
     
     <c:if test="${muokkaustila != null}">

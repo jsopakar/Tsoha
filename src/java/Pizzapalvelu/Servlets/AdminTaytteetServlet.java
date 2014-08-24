@@ -39,13 +39,11 @@ public class AdminTaytteetServlet extends PizzaPalveluServlet {
 
         List<Tayte> taytteet = new ArrayList<Tayte>();
         Tayte muokattava = null;
-
-        // Haetaan lista kaikista täytteistä:
-        try {
-            taytteet = Tayte.listTaytteet();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminTaytteetServlet.class.getName()).log(Level.SEVERE, null, ex);
-            virhe += "Tietokantavirhe!";
+        
+        // Kirjautumisen tarkastelu
+        if (!onKirjautunut(request)) {
+            response.sendRedirect("../admin");
+            return;
         }
 
         // Jos halutaan muokata, haetana sen tiedot:
