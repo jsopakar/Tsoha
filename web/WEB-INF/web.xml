@@ -34,7 +34,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdminIndexServlet</servlet-name>
-        <url-pattern>/Admin/index.jsp</url-pattern>
+        <url-pattern>/Aaadmin/index.jsp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MenuServlet</servlet-name>

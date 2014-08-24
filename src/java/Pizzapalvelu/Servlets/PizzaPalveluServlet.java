@@ -75,10 +75,9 @@ public abstract class PizzaPalveluServlet extends HttpServlet {
         } catch (IOException ex) {
         }
     }
+    
     protected boolean onKirjautunut(HttpServletRequest request) {
         HttpSession sessio = request.getSession();
-        //Yllapitaja yp = (Yllapitaja)sessio.getAttribute("kirjautunut");
-        //return (yp != null);
         return (sessio.getAttribute("kirjautunut") != null);
     }
 

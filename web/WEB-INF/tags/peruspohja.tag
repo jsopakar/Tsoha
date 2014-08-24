@@ -30,6 +30,27 @@
   <body>
       <div id="content">
           
+        <c:if test="${virheet != null}">
+            <c:forEach var="vir" items="${virheet}">
+            <div class="virhe">
+                <p>${vir}</p>
+            </div>
+
+            </c:forEach>
+
+        </c:if>
+
+        <c:if test="${tiedotteet != null}">
+            <c:forEach var="tied" items="${tiedotteet}">
+            <div class="tiedote">
+                <p>${tied}</p>
+            </div>
+
+            </c:forEach>
+
+        </c:if>
+          
+          
           <jsp:doBody/>
           
       </div>

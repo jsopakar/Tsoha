@@ -5,6 +5,7 @@ import Models.Yllapitaja;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -36,55 +37,82 @@ public class LoginServlet extends PizzaPalveluServlet {
         
         boolean loginOk = false;
         String virheviesti = null;
-        
+        ArrayList<String> virheet = new ArrayList<String>();
+        ArrayList<String> tiedotteet = new ArrayList<String>();
+       
         String tunnus = request.getParameter("tunnus");
         String salasana = request.getParameter("salasana");
         
+        // ---------------------------------------------------------------------
         // Uloskirjautuminen
+        // ---------------------------------------------------------------------
         if (request.getParameter("logout") != null) {
             HttpSession sessio = request.getSession();
             sessio.removeAttribute("kirjautunut");
-            request.setAttribute("virheviesti", "Olet kirjautunut ulos!");
+            tiedotteet.add("Olet kirjautunut ulos.");
+            request.setAttribute("tiedotteet", tiedotteet);
         }
         
+        // ---------------------------------------------------------------------
+        // Kun ollaan jo kirjauduttu
+        // ---------------------------------------------------------------------
         if (onKirjautunut(request)) {
-            response.sendRedirect("index.jsp");
+            //response.sendRedirect("index.jsp");
+//            HttpSession sessio = request.getSession();
+//            Yllapitaja yp = (Yllapitaja)sessio.getAttribute("kirjautunut");
+//            request.setAttribute("kirjautunut", yp.getTunnus());
+            request.setAttribute("virheet", virheet);
+            naytaJSP("index.jsp", request, response);
             return;
         }
         
+        // ---------------------------------------------------------------------
+        // Oletustilanne, kun tullaan sivulle kirjautumatta
+        // ---------------------------------------------------------------------
         if (tunnus == null && salasana == null) {
-            naytaJSP("login.jsp", request, response);
+            naytaJSP("index.jsp", request, response);
             return;
         }
-        
+
+        // ---------------------------------------------------------------------
+        // Virhesyötteiden tarkastelut
+        // ---------------------------------------------------------------------
         if (tunnus == null || tunnus.equals("")) {
-            virheviesti = "Et antanut käyttäjätunnusta!";
-            request.setAttribute("virheviesti", virheviesti);
-            naytaJSP("login.jsp", request, response);
+            virheet.add("Et antanut käyttäjätunnusta!");
+            request.setAttribute("virheet", virheet);
+            naytaJSP("index.jsp", request, response);
             return;
         }
         
         request.setAttribute("tunnus", tunnus);
         
         if (salasana == null || salasana.equals("")) {
-            virheviesti = "Et antanut salasanaa!";
-            request.setAttribute("virheviesti", virheviesti);
-            naytaJSP("login.jsp", request, response);
+            virheet.add("Et antanut salasanaa!");
+            request.setAttribute("virheet", virheet);
+            naytaJSP("index.jsp", request, response);
             return;
         }
         
+        // ---------------------------------------------------------------------
+        // Varsinainen loginin tarkastelu
+        // ---------------------------------------------------------------------
         if ((tunnus!=null) && (salasana!=null)) {
             try {
                 loginOk = tarkastaKirjautuminen(tunnus, salasana, request);
             } catch (SQLException ex) {
-                virheviesti = "Tietokantavirhe!";
+                virheet.add("Tietokantavirhe!");
             }
         }
         
+        // ---------------------------------------------------------------------
         if (loginOk) {
             //request.setAttribute("kirjautuminen", "Kirjautuminen onnistui!");
             //naytaJSP("index.jsp", request, response);
-            response.sendRedirect("index.jsp");
+//            HttpSession sessio = request.getSession();
+//            Yllapitaja yp = (Yllapitaja)sessio.getAttribute("kirjautunut");
+//            request.setAttribute("kirjautunut", yp.getTunnus());
+            asetaKirjautumistiedot(request);
+            naytaJSP("index.jsp", request, response);
         } else {       
             if (!(tunnus == null))
                 request.setAttribute("tunnus", tunnus);
@@ -107,6 +135,14 @@ public class LoginServlet extends PizzaPalveluServlet {
             sessio.setAttribute("kirjautunut", yp);
             return true;
         }
+    }
+    
+    private void asetaKirjautumistiedot(HttpServletRequest request) {
+            HttpSession sessio = request.getSession();
+            Yllapitaja yp = (Yllapitaja)sessio.getAttribute("kirjautunut");
+            request.setAttribute("kirjautunut", yp.getTunnus());
+        
+        
     }
     
     /*
