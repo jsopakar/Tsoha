@@ -1,17 +1,14 @@
-<%-- 
-    Document   : index
-    Created on : 31-Jul-2014, 17:51:58
-    Author     : jsopakar
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<t:peruspohja pageTitle="Pizzapalvelu - ylläpidon kirjautuminen">
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+    <h1>Pizzapalvelu</h1>
+    
+    <p>Tervetuloa pizzapalveluun.</p>
+    
+    
+    <h3>- <a href="menu">Menu</a></h3>
+    
+
+</t:peruspohja>

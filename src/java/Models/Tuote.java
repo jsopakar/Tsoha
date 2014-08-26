@@ -18,6 +18,9 @@ public class Tuote {
     private int tuotetyyppi;
     private int tuotenumero;
     
+    private ArrayList<Tayte> taytteet;
+    
+    
     // TODO: Tähän lisättävä vielä lista täytteistä...
 
     public Tuote(int id, String nimi, String kuvaus, double hinta, int tuotetyyppi, int tuotenumero) {
@@ -52,6 +55,15 @@ public class Tuote {
     public int getTuotetyyppi() {
         return tuotetyyppi;
     }
+
+    public ArrayList<Tayte> getTaytteet() {
+        return taytteet;
+    }
+    
+    public void lisaaTayte(Tayte t) {
+        if (t != null)
+            this.taytteet.add(t);
+    }
     
     /**
      * Hakee listan kaikista tuotteista.
@@ -66,11 +78,48 @@ public class Tuote {
         PreparedStatement kysely = null;
         ResultSet tulokset = null;
         
-        String SQL = "SELECT * FROM tuote ORDER BY tuotenumero;";
+        //String SQL = "SELECT * FROM tuote ORDER BY tuotenumero;";
+        String SQL = "SELECT tuote.*, ta.id as tayteid, ta.nimi as taytenimi, ta.kuvaus as taytekuvaus, ta.hinta as taytehinta, ta.onkolisatayte as lisatayte "
+                   + "FROM tuote, linktuotetayte as li, tayte as ta "
+                   + "WHERE li.tuoteid=tuote.id AND li.tayteid=ta.id "
+                   + "ORDER BY tuote.tuotenumero;";
         yhteys = Tietokanta.getYhteys();
         kysely = yhteys.prepareStatement(SQL);
         tulokset = kysely.executeQuery();
         
+        int id = 0;
+        Tuote t = null;
+       
+        while (tulokset.next()) {
+            
+            // Jos on uusi tuoterivi
+            if (tulokset.getInt("id") != id) {
+                if (t != null)
+                    tuotteet.add(t);
+                
+                id = tulokset.getInt("id");
+                t = new Tuote(
+                        tulokset.getInt("id"),
+                        tulokset.getString("nimi"),
+                        tulokset.getString("kuvaus"),
+                        tulokset.getDouble("hinta"),
+                        tulokset.getInt("tuotetyyppi"),
+                        tulokset.getInt("tuotenumero"));
+            }
+            
+            Tayte tayte = new Tayte(
+                    tulokset.getInt("tayteid"),
+                    tulokset.getString("taytenimi"),
+                    tulokset.getString("taytekuvaus"),
+                    tulokset.getDouble("hinta"),
+                    tulokset.getBoolean("lisatayte"));
+            t.lisaaTayte(null);
+        }
+        
+        if (t != null)
+            tuotteet.add(t);
+        
+        /*
         while (tulokset.next()) {
             Tuote t = new Tuote(
                     tulokset.getInt("id"),
@@ -81,12 +130,6 @@ public class Tuote {
                     tulokset.getInt("tuotenumero"));
             tuotteet.add(t);
         }
-        
-        /*
-        Tuote t1 = new Tuote(10, "Koe", "Koekuvaus", 7.90, 1, 8);
-        Tuote t2 = new Tuote(10, "Koe2", "Koekuvaus2", 9.90, 1, 9);
-        tuotteet.add(t1);
-        tuotteet.add(t2);
         */
         
         try { tulokset.close(); } catch (Exception e) {  }

@@ -38,7 +38,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MenuServlet</servlet-name>
-        <url-pattern>/Menu</url-pattern>
+        <url-pattern>/menu</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdminTaytteetServlet</servlet-name>
